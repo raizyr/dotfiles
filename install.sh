@@ -65,3 +65,77 @@ if [[ $response =~ ^(no|n|N) ]];then
     email=$DEFAULT_EMAIL
   fi
 fi
+
+grep 'user = raizyr' .gitconfig
+if [[ $? = 0 ]]; then
+    read -r -p "What is your github.com username? [$DEFAULT_GITHUBUSER]" githubuser
+fi
+if [[ ! $githubuser ]];then
+  githubuser=$DEFAULT_GITHUBUSER
+fi
+
+grep 'token = GITHUB_TOKEN_HERE' .gitconfig
+if [[ $? = 0 ]]; then
+	read -r -p "What is your github.com token? [$DEFAULT_GITHUBTOKEN]" githubtoken
+fi
+if [[ ! $githubtoken ]];then
+	githubtoken=$DEFAULT_GITHUBTOKEN
+fi
+
+running "replacing items in .gitconfig with your info ($COL_YELLOW$fullname, $email, $githubuser$COL_RESET)"
+
+# test if gnu-sed or osx sed
+
+sed -i 's/'$DEFAULT_NAME'/'$firstname' '$lastname'/' .gitconfig > /dev/null 2>&1 | true
+if [[ ${PIPESTATUS[0]} != 0 ]]; then
+  echo
+  running "looks like you are using OSX sed rather than gnu-sed, accommodating"
+  sed -i '' 's/'$DEFAULT_NAME'/'$firstname' '$lastname'/' .gitconfig;
+  sed -i '' 's/'$DEFAULT_EMAIL'/'$email'/' .gitconfig;
+  sed -i '' 's/'$DEFAULT_GITHUBUSER'/'$githubuser'/' .gitconfig;
+  sed -i '' 's/'$DEFAULT_GITHUBTOKEN'/'$githubtoken'/' .gitconfig;
+  sed -i '' 's/'$DEFAULT_USERNAME'/'$(whoami)'/g' .zshrc;ok
+else
+  echo
+  bot "looks like you are already using gnu-sed. woot!"
+  sed -i 's/'$DEFAULT_NAME'/'$firstname' '$lastname'/' .gitconfig;
+  sed -i 's/'$DEFAULT_EMAIL'/'$email'/' .gitconfig;
+  sed -i 's/'$DEFAULT_GITHUBUSER'/'$githubuser'/' .gitconfig;
+  sed -i 's/'$DEFAULT_GITHUBTOKEN'/'$githubtoken'/' .gitconfig;
+  sed -i 's/'$DEFAULT_USERNAME'/'$(whoami)'/g' .zshrc;ok
+fi
+
+echo $0 | grep zsh > /dev/null 2>&1 | true
+if [[ ${PIPESTATUS[0]} != 0 ]]; then
+  running "changing your login shell to zsh"
+  chsh -s $(which zsh);ok
+else
+  bot "looks like you are already using zsh. woot!"
+fi
+
+pushd ~ > /dev/null 2>&1
+
+bot "creating symlinks for project dotfiles..."
+
+symlinkifne .crontab
+symlinkifne .gemrc
+symlinkifne .gitconfig
+symlinkifne .gitignore
+symlinkifne .profile
+symlinkifne .screenrc
+symlinkifne .shellaliases
+symlinkifne .shellfn
+symlinkifne .shellpaths
+symlinkifne .shellvars
+symlinkifne .vim
+symlinkifne .vimrc
+symlinkifne .zlogout
+symlinkifne .zprofile
+symlinkifne .zshenv
+symlinkifne .zshrc
+
+popd > /dev/null 2>&1
+
+./osx.sh
+
+bot "Woot! All done."

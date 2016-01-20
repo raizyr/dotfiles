@@ -217,6 +217,16 @@ function a() {
 	fi;
 }
 
+# `m` with no arguments opens the current directory in Macvim, otherwise opens the
+# given location
+function m() {
+	if [ $# -eq 0 ]; then
+		mvim .;
+	else
+		mvim "$@";
+	fi;
+}
+
 # `v` with no arguments opens the current directory in Vim, otherwise opens the
 # given location
 function v() {
