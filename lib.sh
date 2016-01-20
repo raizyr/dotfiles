@@ -39,6 +39,16 @@ function error() {
     echo -e "$COL_RED[error]$COL_RESET "$1
 }
 
+function require_mas() {
+    running "mas $1"
+    action "mas install $2"
+    mas install $2
+    if [[ $? != 0 ]]; then
+        error "failed to install $1! aborting..."
+    fi
+    ok
+}
+
 function require_cask() {
     running "brew cask $1"
     brew cask list $1 > /dev/null 2>&1 | true

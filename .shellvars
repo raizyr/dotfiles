@@ -1,0 +1,23 @@
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='$(which vim) -f'
+else
+  export EDITOR='$(which mvim) -f'
+fi
+
+# Homebrew Github API Token
+export HOMEBREW_GITHUB_API_TOKEN="GITHUB_TOKEN_HERE"
+
+# virtual env wrapper
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Code
+if [ -f /usr/local/bin/virtualenvwrapper.sh ]; then
+  source /usr/local/bin/virtualenvwrapper.sh
+fi
+
+# Docker machine
+#DOCKER_MACHINE_STATUS=$(docker-machine status default)
+#if [ "$DOCKER_MACHINE_STATUS" = "Stopped" ]; then
+  #docker-machine start default
+#fi
+#eval "$(docker-machine env default)"
