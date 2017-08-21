@@ -1,4 +1,4 @@
-source ~/src/github.com/zsh-users/antigen/antigen.zsh
+source /usr/local/share/antigen/antigen.zsh
 
 antigen bundles <<EOBUNDLES
 	git
