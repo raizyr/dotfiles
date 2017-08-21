@@ -10,6 +10,7 @@ antigen bundles <<EOBUNDLES
 	thefuck
 	scd
 	Tarrasch/zsh-autoenv
+	zsh-users/zsh-syntax-highlighting
 EOBUNDLES
 
 antigen use oh-my-zsh
