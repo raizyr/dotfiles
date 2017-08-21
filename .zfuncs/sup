@@ -1,0 +1,14 @@
+# vim:expandtab ts=4 sw=4 syntax=zsh filetype=zsh
+sup() {
+  local r
+  local d
+  r=$(svn info --show-item revision)
+  if [ ! $? ]; then
+    exit 1
+  fi
+  svn update
+  d=$(svn diff -r${r// /})
+  if [[ $d ]]; then
+    echo ${d} | mvim -R - > /dev/null
+  fi
+}

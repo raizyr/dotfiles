@@ -1,0 +1,7 @@
+# vim:expandtab ts=4 sw=4 syntax=zsh filetype=zsh
+r() {
+  local f
+  f=($HOME/.zfuncs/*(.))
+  unfunction $f:t 2> /dev/null
+  autoload -Uz $f:t
+}

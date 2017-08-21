@@ -1,0 +1,34 @@
+# OSX defaults
+Applications
+Desktop
+Documents
+Downloads
+Library
+Movies
+Music
+Pictures
+Public
+.Trash
+.CFUserTextEncoding
+.cups
+
+#GOPATH dirs
+src/*
+pkg/*
+bin/*
+
+# Google Drive
+Google Drive
+
+# VirtualBox
+VirtualBox VMs
+
+#antigen
+.antigen
+
+# nodejs v8flags cache
+.v8flags*
+
+# Cisco Anyconnect
+.anyconnect
+
