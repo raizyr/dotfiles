@@ -130,6 +130,18 @@ set tabstop=2
 syntax enable
 set background=dark
 set textwidth=0
-colorscheme solarized
+
+" Returns the list of available color schemes
+function! GetColorSchemes()
+    return uniq(sort(map(
+    \  globpath(&runtimepath, "colors/*.vim", 0, 1),
+    \  'fnamemodify(v:val, ":t:r")'
+    \)))
+endfunction
+
+let s:schemes = GetColorSchemes()
+if index(s:schemes, 'solarized') >= 0
+    colorscheme solarized
+endif
 
 
