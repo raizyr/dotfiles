@@ -34,6 +34,7 @@ Plug 'Rykka/riv.vim'
 Plug 'Rykka/InstantRst'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'rodjek/vim-puppet'
+Plug 'vim-scripts/svnj.vim'
 call plug#end()
 
 set number

@@ -32,3 +32,5 @@ VirtualBox VMs
 # Cisco Anyconnect
 .anyconnect
 
+# Vim tmp
+.vim/tmp
