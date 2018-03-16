@@ -1,5 +1,13 @@
 # Homebrew installs
 antigen
 awscli
+go
+kops
+kubernetes-cli
+kubernetes-helm
+macvim
+packer
 rbenv
+terraform
+terragrunt
 thefuck
