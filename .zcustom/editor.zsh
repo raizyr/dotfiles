@@ -1,1 +1,3 @@
-export EDITOR='mvim -f'
+if which mvim > /dev/null; then
+  export EDITOR='mvim -f'
+fi
