@@ -11,6 +11,8 @@ Public
 .Trash
 .CFUserTextEncoding
 .cups
+.DS_Store
+.ssh
 
 #GOPATH dirs
 src/*
@@ -32,8 +34,9 @@ VirtualBox VMs
 # Cisco Anyconnect
 .anyconnect
 
-# Vim tmp
-.vim/tmp
+# Vim
+.vim/*
+!.vim/autoload
 
 # Visual Studio Code
 .vscode/*
