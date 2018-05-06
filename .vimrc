@@ -35,6 +35,9 @@ Plug 'Rykka/InstantRst'
 Plug 'hashivim/vim-hashicorp-tools'
 Plug 'rodjek/vim-puppet'
 Plug 'vim-scripts/svnj.vim'
+Plug 'Heorhiy/VisualStudioDark.vim'
+Plug 'skielbasa/vim-material-monokai'
+Plug 'vim-airline/vim-airline'
 call plug#end()
 
 set number
@@ -130,6 +133,9 @@ set tabstop=2
 
 syntax enable
 set background=dark
+let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+set termguicolors
 set textwidth=0
 
 " Returns the list of available color schemes
@@ -141,8 +147,10 @@ function! GetColorSchemes()
 endfunction
 
 let s:schemes = GetColorSchemes()
-if index(s:schemes, 'solarized') >= 0
-    colorscheme solarized
+if index(s:schemes, 'material-monokai') >= 0
+    let g:airline_theme='materialmonokai'
+    let g:materialmonokai_italic=1
+    colorscheme material-monokai
 endif
 
 
