@@ -41,3 +41,7 @@ VirtualBox VMs
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+
+# Custom terminfo
+.terminfo/*
+!.terminfo/*.terminfo
