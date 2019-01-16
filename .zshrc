@@ -1,4 +1,12 @@
-source /usr/local/share/antigen/antigen.zsh
+# vim: set ts=2 sw=2 sts=2 et ai si :
+if [ -f /usr/share/zsh-antigen/antigen.zsh ]; then
+	source /usr/share/zsh-antigen/antigen.zsh
+elif [ -f /usr/local/share/antigen/antigen.zsh ]; then
+	source /usr/local/share/antigen/antigen.zsh
+else
+	echo "Error: Can not find antigen!"
+	exit 1
+fi
 
 antigen bundles <<EOBUNDLES
 	git
