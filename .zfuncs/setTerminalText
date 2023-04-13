@@ -1,0 +1,11 @@
+# $1 = type; 0 - both, 1 - tab, 2 - title
+# rest = text
+setTerminalText () {
+    local mode=$1 ; shift
+    print -n "\033]$mode;$@\007"
+}
+stt_both  () { setTerminalText 0 $@; }
+stt_tab   () { setTerminalText 1 $@; }
+stt_title () { setTerminalText 2 $@; }
+
+autoload -Uz stt_both stt_tab stt_title

@@ -4,4 +4,5 @@ r() {
   f=($HOME/.zfuncs/*(.))
   unfunction $f:t 2> /dev/null
   autoload -Uz $f:t
+  print "zfuncs reloaded"
 }

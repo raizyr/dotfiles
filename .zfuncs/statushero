@@ -1,0 +1,11 @@
+statushero() {
+    local teamid="1b541022-52aa-4f54-bc4d-681dd4258635"
+    local apikey="YpE5XhQz3iY7WdDn4b2FlJhWy4WIeDbIRAXr_5eiuzU"
+    local url="https://service.statushero.com/api/v1/"
+    local path="$1"
+
+    /usr/bin/curl -i "${url}${path}" \
+        -H "Content-type: application/json" \
+        -H "X-TEAM-ID: ${teamid}" \
+        -H "X-API-KEY: ${apikey}" \
+}
