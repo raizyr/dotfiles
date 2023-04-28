@@ -1,0 +1,8 @@
+set-tab-title-to-repo() {
+  local dir=$PWD
+  # print "dir: $dir"
+  [[ "${dir:h5}" == "${HOME}/src/github.com" && "${dir:t2:h}" != "github.com" ]] && dir="${dir:t2}"
+  # print "dir2: $dir"
+  # print "dir3: ${dir/${HOME}/~}"
+  set-tab-title "${dir/${HOME}/~}"
+}

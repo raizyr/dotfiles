@@ -1,4 +1,4 @@
-set shell=bash\ -i            " plugin compatibility since I'm using zshell
+set shell=bash            " plugin compatibility since I'm using zshell
 
 if empty(glob('~/.vim/autoload/plug.vim'))
     silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -16,12 +16,9 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-vinegar'
 Plug 'jamessan/vim-gnupg'
 Plug 'flazz/vim-colorschemes'
-"Plug 'Valloric/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
-Plug 'garyburd/go-explorer'
-"Plug 'vim-scripts/indentpython.vim'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'nvie/vim-flake8'
 Plug 'mxw/vim-jsx'
@@ -115,6 +112,7 @@ au BufNewFile,BufRead *.js,*.html,*.css,*.json
 
 " terraform indentation
 let g:terraform_align=1
+let g:terraform_fold_sections=1
 let g:terraform_fmt_on_save=1
 "au BufNewFile, BufRead *.tf,*.tfvars
     "\ set tabstop=2 |
@@ -133,8 +131,6 @@ set tabstop=2
 
 syntax enable
 set background=dark
-let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set textwidth=0
 
@@ -150,7 +146,8 @@ let s:schemes = GetColorSchemes()
 if index(s:schemes, 'material-monokai') >= 0
     let g:airline_theme='materialmonokai'
     let g:materialmonokai_italic=1
-    colorscheme material-monokai
+    colorscheme papercolor
 endif
+
 
 

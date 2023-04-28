@@ -1,0 +1,25 @@
+ghc() {
+  local repo="$1"
+  local srcdir="${HOME}/src/github.com"
+  local reponame="${repo:r:t}"
+  local repoowner="${${repo:h:t}#*:}"
+  local dst="${${2:#[^/]*}:-${2:+$PWD/$2}}"
+
+  [[ -z $repo ]] && echo "Usage: ghc <repository> [destination]" && return 1
+
+  # use the api to pull the current user login if repoowner is .
+  [[ $repoowner == "." ]] && repoowner="$(gh api user -q '.login')"
+
+  # ${repo:#pattern} returns "" if the pattern matches
+  # -z ${repo:#(http|git)*} will be true if the var starts with http or git
+  [[ -z ${repo:#(http|git)*} && -n ${repo:#*github.com*} ]] && echo "$repo is not a valid github url" && return 2
+
+  # get $dst from the parsed url if not passed
+  [[ -z "${dst}" ]] && dst="$srcdir/$repoowner/$reponame"
+
+  # Make sure we haven't aready cloned this repo 
+  [[ -d "${dst}" ]] && echo "Already cloned, changing directories..." && cd ${dst} && return 0
+
+  # echo "gh repo clone ${repo} ${dst} && cd ${dst}"
+  gh repo clone ${repo} ${dst} && cd ${dst}
+}

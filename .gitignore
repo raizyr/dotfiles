@@ -52,3 +52,6 @@ VirtualBox VMs
 # Custom terminfo
 .terminfo/*
 !.terminfo/*.terminfo
+
+# Python3 venv
+**/venv/*
