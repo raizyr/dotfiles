@@ -3,3 +3,6 @@ zmodule zsh-users/zsh-completions --fpath src
 zmodule completion
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
+
+zmodule /opt/homebrew/bin/starship --cmd 'eval "$(starship init zsh)"'
+zmodule /opt/homebrew/bin/thefuck --cmd 'eval "$(thefuck --alias --enable-experimental-instant-mode)"'
