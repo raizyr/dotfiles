@@ -17,10 +17,7 @@ autoload -Uz $HOME/.zfuncs/*(:t)
 
 export GPG_TTY=$(tty)
 
-export GOPATH=$(go env GOPATH)
-export GOROOT=$(go env GOROOT)
-export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
-export PATH=$PATH:/usr/local/MacGPG2/bin
+export PATH=$PATH:/usr/local/MacGPG2/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/bin:$HOME/bin
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
