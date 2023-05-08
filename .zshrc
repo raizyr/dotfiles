@@ -15,30 +15,33 @@ if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
   source ${ZIM_HOME}/zimfw.zsh init -q
 fi
 
+# Initialize modules.
+source ${ZIM_HOME}/init.zsh
 
-# autoload ~/.zfuncs/*
-# autoload -Uz $HOME/.zfuncs/*(:t)
+fpath=(
+  ~/.zfuncs
+  ~/.zfuncs/**/*~*/(CVS)#(/N)
+  "${fpath[@]}"
+)
+autoload -Uz $HOME/.zfuncs/*(:t)
 
 export GPG_TTY=$(tty)
 
 export PATH=$PATH:/usr/local/MacGPG2/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/bin:$HOME/bin
 
-# Initialize modules.
-source ${ZIM_HOME}/init.zsh
-
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
+export ITERM2_SQUELCH_MARK=1
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 # precmd_functions+=(
 #   set-tab-title-to-repo
 # )
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-# export PATH="/Users/chrismcnabb/.rd/bin:$PATH"
+export PATH="/Users/chris.mcnabb/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
 
-# autoload bashcompinit && bashcompinit
-# complete -C '/opt/homebrew/bin/aws_completer' aws
-# export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
+autoload bashcompinit && bashcompinit
+complete -C '/opt/homebrew/bin/aws_completer' aws
+export PATH="/opt/homebrew/opt/gnu-getopt/bin:$PATH"
 
 #
 # Pyenv
