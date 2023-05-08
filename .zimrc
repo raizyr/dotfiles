@@ -17,6 +17,6 @@ zmodule joke/zim-k9s
 zmodule joke/zim-kubectl
 zmodule joke/zim-yq
 zmodule joke/zim-starship
-zmodule /opt/homebrew/bin/thefuck --cmd 'eval "$(thefuck --alias --enable-experimental-instant-mode)"'
+zmodule $(brew --prefix)/bin/thefuck --cmd 'eval "$(thefuck --alias --enable-experimental-instant-mode)"'
 
 zmodule completion
