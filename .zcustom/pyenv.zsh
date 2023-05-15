@@ -1,9 +1,5 @@
-export PYENV_VIRTUALENV_DISABLE_PROMPT=1
-export VIRTUALENV_VERSION=15.0.2
-
-if which pyenv > /dev/null;
-then
+if command -v pyenv >/dev/null 2>&1; then
   export PATH=$(pyenv root):$PATH
-  eval "$(pyenv init - --no-rehash)"; 
-  #eval "$(pyenv virtualenv-init -)"; 
+  eval "$(pyenv init - --no-rehash)"
+  #eval "$(pyenv virtualenv-init -)";
 fi

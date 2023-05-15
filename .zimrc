@@ -1,3 +1,6 @@
+# vim:expandtab ts=4 sw=4 syntax=zsh filetype=zsh
+# shellcheck disable
+
 zmodule environment
 zmodule homebrew
 zmodule git
@@ -18,5 +21,14 @@ zmodule joke/zim-kubectl
 zmodule joke/zim-yq
 zmodule joke/zim-starship
 zmodule $(brew --prefix)/bin/thefuck --cmd 'eval "$(thefuck --alias --enable-experimental-instant-mode)"'
+zmodule kiesman99/zim-zoxide
+
+zmodule /Users/chris.mcnabb/.zcustom \
+    --source editor.zsh \
+    --source aliases.zsh
+
+zmodule ohmyzsh/ohmyzsh --root plugins/iterm2
 
 zmodule completion
+
+zmodule ohmyzsh/ohmyzsh --root plugins/aws

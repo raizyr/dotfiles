@@ -55,3 +55,6 @@ VirtualBox VMs
 
 # Python3 venv
 **/venv/*
+
+# Zsh compiled files
+**/*.zwc
