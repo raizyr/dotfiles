@@ -1,8 +1,6 @@
 # shellcheck disable
 # Let's use Zim | https://zimfw.sh/ | https://github.com/zimfw/zimfw
-
 zstyle ':zim:zmodule' use 'git'
-
 ZIM_HOME=~/.zim
 
 # Download zimfw plugin manager if missing.
@@ -31,3 +29,7 @@ export GPG_TTY=$(tty)
 export PATH=$PATH:/usr/local/MacGPG2/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/bin:$HOME/bin
 
 ### Put other stuff here ###
+export SHOW_AWS_PROMPT=false
+
+# eval $(thefuck --alias --enable-experimental-instant-mode)
+# eval $(thefuck --alias)

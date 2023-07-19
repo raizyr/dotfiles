@@ -1,6 +1,8 @@
 # vim:expandtab ts=4 sw=4 syntax=zsh filetype=zsh
 # shellcheck disable
 
+zcorrection='false'
+
 zmodule environment
 zmodule homebrew
 zmodule git
@@ -15,15 +17,18 @@ zmodule zsh-users/zsh-completions --fpath src
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 
+zmodule $(brew --prefix)/bin/thefuck --cmd 'eval $(thefuck --alias --enable-experimental-instant-mode)'
+
 zmodule joke/zim-github-cli
 zmodule joke/zim-k9s
 zmodule joke/zim-kubectl
 zmodule joke/zim-yq
 zmodule joke/zim-starship
-zmodule $(brew --prefix)/bin/thefuck --cmd 'eval "$(thefuck --alias --enable-experimental-instant-mode)"'
 zmodule kiesman99/zim-zoxide
 
-zmodule /Users/chris.mcnabb/.zcustom \
+zmodule ${HOME}/.zcustom/aws-sso
+
+zmodule ${HOME}/.zcustom \
     --source editor.zsh \
     --source aliases.zsh
 
@@ -31,4 +36,5 @@ zmodule ohmyzsh/ohmyzsh --root plugins/iterm2
 
 zmodule completion
 
-zmodule ohmyzsh/ohmyzsh --root plugins/aws
+# zmodule ${HOME}/.zcustom \
+#     --source aws-sso.zsh
