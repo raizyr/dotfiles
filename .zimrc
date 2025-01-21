@@ -4,9 +4,9 @@
 zcorrection='false'
 
 zmodule environment
-zmodule homebrew
 zmodule git
-zmodule k
+zmodule joke/zim-github-cli
+
 zmodule magic-enter
 zmodule pvenv
 zmodule ssh
@@ -17,24 +17,13 @@ zmodule zsh-users/zsh-completions --fpath src
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 
-zmodule $(brew --prefix)/bin/thefuck --cmd 'eval $(thefuck --alias --enable-experimental-instant-mode)'
-
-zmodule joke/zim-github-cli
-zmodule joke/zim-k9s
-zmodule joke/zim-kubectl
 zmodule joke/zim-yq
 zmodule joke/zim-starship
 zmodule kiesman99/zim-zoxide
-
-zmodule ${HOME}/.zcustom/aws-sso
 
 zmodule ${HOME}/.zcustom \
     --source editor.zsh \
     --source aliases.zsh
 
-zmodule ohmyzsh/ohmyzsh --root plugins/iterm2
-
 zmodule completion
 
-# zmodule ${HOME}/.zcustom \
-#     --source aws-sso.zsh
