@@ -16,6 +16,7 @@ Plug 'tpope/vim-sleuth'
 Plug 'tpope/vim-vinegar'
 Plug 'jamessan/vim-gnupg'
 Plug 'flazz/vim-colorschemes'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'majutsushi/tagbar'
@@ -146,7 +147,7 @@ let s:schemes = GetColorSchemes()
 if index(s:schemes, 'material-monokai') >= 0
     let g:airline_theme='materialmonokai'
     let g:materialmonokai_italic=1
-    colorscheme papercolor
+    colorscheme PaperColor
 endif
 
 

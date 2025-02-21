@@ -31,10 +31,14 @@ autoload -Uz $HOME/.zfuncs/*(:t)
 
 export GPG_TTY=$(tty)
 
-export PATH=$PATH:/usr/local/MacGPG2/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/bin:$HOME/bin
+export PATH=$PATH:/usr/local/MacGPG2/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/bin:$HOME/bin:$HOME/.local/bin
 
 ### Put other stuff here ###
 export SHOW_AWS_PROMPT=false
 
 # eval $(thefuck --alias --enable-experimental-instant-mode)
 # eval $(thefuck --alias)
+
+# Cursor
+export PATH="$PATH:/mnt/c/Users/raizy/AppData/Local/Programs/cursor/resources/app/bin"
+
