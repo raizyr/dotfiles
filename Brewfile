@@ -1,9 +1,5 @@
 # core taps
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-drivers"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
 tap "homebrew/services"
 
 # General system tools
@@ -27,7 +23,7 @@ brew "markdownlint-cli"
 brew "pre-commit"
 brew "shellcheck"
 brew "shfmt"
-cask "visual-studio-code"
+cask "cursor"
 cask "tuple"
 
 # Python tools
@@ -70,8 +66,6 @@ cask "1password-cli"
 
 # Desktop tools
 cask "bartender"
-cask "box-sync"
-cask "box-tools"
 cask "discord"
 cask "font-fira-code"
 cask "gpg-suite"
@@ -81,21 +75,30 @@ cask "keybase"
 cask "notion"
 cask "rectangle-pro"
 cask "spotify"
-cask "warp"
 cask "yubico-yubikey-manager"
 cask "zoom"
 
 # Terraform stuff
-brew "terraform-docs"
-brew "tfenv"
-brew "tflint"
-brew "tfsec"
-brew "tgenv"
+# brew "terraform-docs"
+# brew "tfenv"
+# brew "tflint"
+# brew "tfsec"
+# brew "tgenv"
 
 # Jira
-tap "ankitpokhrel/jira-cli"
-brew "ankitpokhrel/jira-cli/jira-cli"
+# tap "ankitpokhrel/jira-cli"
+# brew "ankitpokhrel/jira-cli/jira-cli"
 
 # Spacelift
-tap "spacelift-io/spacelift"
-brew "spacelift-io/spacelift/spacectl"
+# tap "spacelift-io/spacelift"
+# brew "spacelift-io/spacelift/spacectl"
+
+
+# Visual Studio Code / Cursor
+cask "cursor"
+cask "visual-studio-code"
+vscode "foxundermoon.shell-format"
+vscode "ms-python.debugpy"
+vscode "ms-python.python"
+vscode "ms-python.vscode-pylance"
+vscode "vscodevim.vim"

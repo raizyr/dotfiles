@@ -23,6 +23,8 @@ fi
 tty_mkbold="$(tput bold)"
 tty_underline="$(tput smul)"
 tty_blue="$(tput setaf 32)"
+tty_orange="$(tput setaf 208)"
+tty_green="$(tput setaf 76)"
 tty_red="$(tput setaf 196)"
 tty_bold="${tty_mkbold} $(tput setaf 255)"
 tty_reset="$(tput sgr0)"
@@ -41,32 +43,193 @@ chomp() {
     printf "%s" "${1/"$'\n'"/}"
 }
 
+yesno() {
+    read -p "$1 (y/n) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        return 0
+    fi
+}
+
 ohai() {
     printf "${tty_blue}==>${tty_bold} %s${tty_reset}\n" "$(shell_join "$@")"
 }
 
-morehai() {
-    printf "${tty_blue}==>${tty_bold} %s${tty_reset}" "$(shell_join "$@")"
+checkhai() {
+    printf "${tty_orange}==>${tty_bold} %s ${tty_reset}" "$(shell_join "$@")"
+}
+
+okhai() {
+    printf "${tty_green}✔️${tty_bold} %s\n${tty_reset}" "$(shell_join "$@")"
+}
+
+nohai() {
+    printf "${tty_red}‼️${tty_bold} %s\n${tty_reset}" "$(shell_join "$@")"
 }
 
 donehai() {
-    printf "${tty_blue}==>${tty_bold} %s${tty_reset}" "$(shell_join "$@")"
+    printf "${tty_green}==>${tty_bold} %s\n${tty_reset}" "$(shell_join "$@")"
 }
 
 warn() {
     printf "${tty_red}Warning${tty_reset}: %s\n" "$(chomp "$1")" >&2
 }
 
-macos() {
-    morehai "Looking for homebrew..."
+_check_file() {
+    local file=$1
+    if [ -f "${file}" ]; then
+        echo "found."
+        checkhai "Comparing ${file} with ${REPO_ROOT}/${file}..."
+        if [ "$(cat ${file})" = "$(cat ${REPO_ROOT}/${file})" ]; then
+            donehai "${file} already installed."
+        else
+            nohai "."
+            warn "${file} is different from ${REPO_ROOT}/${file}."
+            # prompt the user to fix the file
+            if yesno "Do you want to backup and fix the file?"; then
+                mv ${file} ${file}.backup
+                cp ${REPO_ROOT}/${file} ${file}
+            fi
+        fi
+    fi
+}
+
+_check_symlink() {
+    local file=$1
+    local link=$2
+    if [ -e "${link}" ] && [ ! -L "${link}" ]; then
+        echo "found."
+        warn "${link} is a file, but it should be a symlink to ${REPO_ROOT}/${file}."
+        if yesno "Do you want to backup the file and fix the symlink?"; then
+            mv ${link} ${link}.backup
+            ln -s ${REPO_ROOT}/${file} ${link}
+            donehai "${link} fixed."
+        else abort
+        fi
+    elif [ -L "${link}" ]; then
+        echo "found."
+        checkhai "Comparing ${link} with ${REPO_ROOT}/${file}..."
+        # check if the symlink is correct
+        if [ "$(readlink ${link})" = "${REPO_ROOT}/${file}" ]; then
+            okhai "${link} already installed."
+        else
+            
+            warn "${link} is a symlink to $(readlink ${link}), but it should be a symlink to ${REPO_ROOT}/${file}."
+            # prompt the user to fix the symlink
+            if yesno "Do you want to fix the symlink?"; then
+                rm ${link}
+                ln -s ${REPO_ROOT}/${file} ${link}
+                donehai "${link} fixed."
+            fi
+        fi
+    else
+        echo "not found."
+        ohai "Installing ${link}..."
+        ln -s ${REPO_ROOT}/${file} ${link}
+        donehai "${link} installed."
+    fi
+}
+
+__brew() {
+    checkhai "Looking for homebrew..."
     if command -v brew >/dev/null 2>&1; then
+        echo "found."
+        donehai "Homebrew already installed."
+    else
+        echo "not found."
+        ohai "Installing Homebrew"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" >>${INSTALL_LOG} 2>&1
+        donehai "Homebrew installed."
+    fi
+}
+
+__brew_packages() {
+    if command -v brew >/dev/null 2>&1; then
+        ohai "Installing brew packages..."
+        brew bundle --file=${REPO_ROOT}/Brewfile | tee -a ${INSTALL_LOG}
+        donehai "Brew packages installed."
+    else
+        warn "Homebrew not installed. Skipping brew packages."
+    fi
+}
+
+__vim() {
+    checkhai "Checking vim configuration..."
+    if [ -d ~/.vim ]; then
         echo "already installed."
     else
         echo "not found."
-        echo -n "Installing homebrew..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" >>${INSTALL_LOG} 2>&1
-        echo "done."
+        ohai "Installing vim configuration..."
+        mkdir -p ~/.vim/autoload
+        mkdir -p ~/.vim/tmp/{swaps,backups,undos}
+        curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+            https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        _check_symlink vimrc ~/.vimrc
+        donehai "Vim configuration installed"
+
+        ohai "Installing vim plugins..."
+        vim +PlugInstall +qall
+        donehai "Vim plugins installed"
     fi
+}
+
+__zshell() {
+    checkhai "Checking .zshrc..."
+    _check_symlink zshrc ~/.zshrc
+    donehai ".zshrc installed"
+
+    checkhai "Checking .zshenv..."
+    _check_symlink zshenv ~/.zshenv
+    donehai ".zshenv installed"
+
+    checkhai "Checking .zcustom..."
+    _check_symlink zcustom ~/.zcustom
+    donehai ".zcustom installed"
+
+    checkhai "Checking .zfuncs..."
+    _check_symlink zfuncs ~/.zfuncs
+    donehai ".zfuncs installed"
+    
+    checkhai "Checking zimfw..."
+    if [ -d ~/.zim ]; then
+        echo "already installed."
+    else
+        echo "not found."
+        ohai "Installing zimfw..."
+        curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
+        donehai "zimfw installed"
+    fi
+}
+
+__dirs() {
+    ohai "Creating directory layout..."
+    mkdir -p ~/{src,bin,pkg,tmp}
+    donehai "Directory layout created"
+}
+
+__dotfiles() {
+    ohai "Checking out dotfiles repository..."
+    if [ -d ~/.dotfiles ]; then
+        echo "already installed."
+    else
+        echo "not found."
+        ohai "Installing dotfiles repository..."
+        git clone https://github.com/dotfiles/dotfiles.git ~/.dotfiles
+        donehai "Dotfiles repository installed"
+    fi
+}
+
+__common() {
+    __dotfiles
+    __dirs
+    __vim
+    __zshell
+}
+
+macos() {
+    __common
+    __brew
+    __brew_packages
 }
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
