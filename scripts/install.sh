@@ -4,7 +4,7 @@
 set -o errexit -o pipefail -o noclobber -o nounset
 
 REPO_ROOT=$(git rev-parse --show-toplevel)
-INSTALL_LOG=${REPO_ROOT}/.install.log
+INSTALL_LOG=${HOME}/.dotfiles.install.log
 touch ${INSTALL_LOG}
 
 abort() {
@@ -130,6 +130,18 @@ _check_symlink() {
     fi
 }
 
+# First check OS.
+OS="$(uname)"
+if [[ "${OS}" == "Linux" ]]
+then
+  ON_LINUX=1
+elif [[ "${OS}" == "Darwin" ]]
+then
+  ON_MACOS=1
+else
+  abort "dotfiles installation is only supported on macOS and Linux."
+fi
+
 __brew() {
     checkhai "Looking for homebrew..."
     if command -v brew >/dev/null 2>&1; then
@@ -160,6 +172,8 @@ __vim() {
     else
         echo "not found."
         ohai "Installing vim configuration..."
+        
+        ohai "Creating vim directory layout..."
         mkdir -p ~/.vim/autoload
         mkdir -p ~/.vim/tmp/{swaps,backups,undos}
         curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
@@ -199,6 +213,10 @@ __zshell() {
         curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh
         donehai "zimfw installed"
     fi
+
+    checkhai "Checking .zimrc..."
+    _check_symlink zimrc ~/.zimrc
+    donehai ".zimrc installed"
 }
 
 __dirs() {
@@ -219,35 +237,19 @@ __dotfiles() {
     fi
 }
 
-__common() {
+__main() {
     __dotfiles
     __dirs
     __vim
     __zshell
-}
-
-macos() {
-    __common
     __brew
     __brew_packages
 }
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        printf "Handling Linux tasks"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
-        # Mac OSX
-        printf "Handling MacOS tasks"
-        macos
-elif [[ "$OSTYPE" == "cygwin" ]]; then
-        # POSIX compatibility layer and Linux environment emulation for Windows
-        printf "Handling Cygwin tasks"
-elif [[ "$OSTYPE" == "msys" ]]; then
-        # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-        printf "Handling MinGW tasks"
-elif [[ "$OSTYPE" == "win32" ]]; then
-        printf "Handling Windows tasks"
-elif [[ "$OSTYPE" == "freebsd"* ]]; then
-        printf "Handling BSD tasks"
-else
-        printf "Unknown OS: ${OSTYPE}"
+
+# Invalidate sudo timestamp before exiting (if it wasn't active before).
+if [[ -x /usr/bin/sudo ]] && ! /usr/bin/sudo -n -v 2>/dev/null
+then
+  trap '/usr/bin/sudo -k' EXIT
 fi
+

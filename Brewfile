@@ -4,7 +4,6 @@ tap "homebrew/services"
 
 # General system tools
 brew "curl"
-brew "geoip"
 brew "gnu-getopt"
 brew "grep"
 brew "jq"
@@ -34,10 +33,10 @@ brew "pyenv-virtualenv"
 brew "rbenv"
 
 # AWS stuff
-brew "aws-iam-authenticator"
-brew "awscli"
-cask "aws-vault"
-cask "aws-vpn-client"
+# brew "aws-iam-authenticator"
+# brew "awscli"
+# cask "aws-vault"
+# cask "aws-vpn-client"
 
 # Docker tools
 brew "dive"
@@ -58,7 +57,7 @@ brew "helm"
 brew "k9s"
 
 # Hashicorp tools
-brew "vault", restart_service: true
+# brew "vault", restart_service: true
 
 # 1pass
 cask "1password"
