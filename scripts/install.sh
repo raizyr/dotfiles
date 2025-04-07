@@ -76,21 +76,52 @@ warn() {
 }
 
 _check_file() {
-    local file=$1
+    local srcfile=$1
+    local file=${2:-~/${srcfile}}
     if [ -f "${file}" ]; then
         echo "found."
-        checkhai "Comparing ${file} with ${REPO_ROOT}/${file}..."
-        if [ "$(cat ${file})" = "$(cat ${REPO_ROOT}/${file})" ]; then
+        checkhai "Comparing ${file} with ${REPO_ROOT}/${srcfile}..."
+        if [ "$(cat ${file})" = "$(cat ${REPO_ROOT}/${srcfile})" ]; then
             donehai "${file} already installed."
         else
             nohai "."
-            warn "${file} is different from ${REPO_ROOT}/${file}."
+            warn "${file} is different from ${REPO_ROOT}/${srcfile}."
             # prompt the user to fix the file
             if yesno "Do you want to backup and fix the file?"; then
                 mv ${file} ${file}.backup
-                cp ${REPO_ROOT}/${file} ${file}
+                cp ${REPO_ROOT}/${srcfile} ${file}
             fi
         fi
+    else
+        echo "not found."
+        ohai "Installing ${file}..."
+        cp ${REPO_ROOT}/${srcfile} ${file}
+        donehai "${file} installed."
+    fi
+}
+
+_check_template() {
+    local template=$1
+    local file=${2:-~/${template}}
+    if [ -f "${file}" ]; then
+        echo "found."
+        checkhai "Comparing ${file} with ${REPO_ROOT}/${template}..."
+        if [ "$(cat ${file})" = "$(cat ${REPO_ROOT}/${template} | envsubst)" ]; then
+            donehai "${file} already installed."
+        else
+            nohai "."
+            warn "${file} is different from ${REPO_ROOT}/${template}."
+            # prompt the user to fix the file
+            if yesno "Do you want to backup and fix the file?"; then
+                mv ${file} ${file}.backup
+                envsubst < ${REPO_ROOT}/${template} > ${file}
+            fi
+        fi
+    else
+        echo "not found."
+        ohai "Installing ${file}..."
+        envsubst < ${REPO_ROOT}/${template} > ${file}
+        donehai "${file} installed."
     fi
 }
 
@@ -142,6 +173,7 @@ else
   abort "dotfiles installation is only supported on macOS and Linux."
 fi
 
+
 __brew() {
     checkhai "Looking for homebrew..."
     if command -v brew >/dev/null 2>&1; then
@@ -185,6 +217,24 @@ __vim() {
         vim +PlugInstall +qall
         donehai "Vim plugins installed"
     fi
+}
+
+__git() {
+    if [[ "${ON_LINUX-}" -eq 1 ]]; then
+        export SSH_PATH="/usr/bin/ssh"
+        export OP_SSH_SIGN_PATH="/usr/bin/op-ssh-sign"
+    elif [[ "${ON_MACOS-}" -eq 1 ]]; then
+        export SSH_PATH="/usr/bin/ssh"
+        export OP_SSH_SIGN_PATH="/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+    fi
+
+    checkhai "Checking .gitconfig..."
+    _check_template gitconfig ~/.gitconfig
+    donehai ".gitconfig installed"
+
+    checkhai "Checking .gitignore-global..."
+    _check_file gitignore-global ~/.gitignore-global
+    donehai ".gitignore-global installed"
 }
 
 __zshell() {
@@ -241,6 +291,7 @@ __main() {
     __dotfiles
     __dirs
     __vim
+    __git
     __zshell
     __brew
     __brew_packages
