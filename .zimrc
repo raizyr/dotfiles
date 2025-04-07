@@ -12,6 +12,7 @@ zmodule pvenv
 zmodule ssh
 zmodule termtitle
 zmodule utility
+zmodule homebrew
 
 zmodule zsh-users/zsh-completions --fpath src
 zmodule zsh-users/zsh-syntax-highlighting

@@ -39,6 +39,7 @@ export SHOW_AWS_PROMPT=false
 # eval $(thefuck --alias --enable-experimental-instant-mode)
 # eval $(thefuck --alias)
 
+
 # Cursor
 export PATH="$PATH:/mnt/c/Users/raizy/AppData/Local/Programs/cursor/resources/app/bin"
 
