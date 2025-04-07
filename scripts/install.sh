@@ -253,3 +253,4 @@ then
   trap '/usr/bin/sudo -k' EXIT
 fi
 
+__main

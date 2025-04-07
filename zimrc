@@ -6,6 +6,8 @@ zcorrection='false'
 zmodule environment
 zmodule git
 zmodule joke/zim-github-cli
+zmodule bgrrtt/zimfw-node
+zmodule muchobien/zim-bun
 
 zmodule magic-enter
 zmodule pvenv
