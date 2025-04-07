@@ -1,22 +1,36 @@
 # This is Git's per-user configuration file.
+# Set the appropriate env vars and pipe this file to envsubst to get the correct values
 [user]
-# Please adapt and uncomment the following lines:
-name = Chris McNabb
-email = CHANGEME
-signingkey = CHANGEME
-[commit]
-gpgsign = true
-[gpg]
-program = /usr/local/bin/gpg
-[tag]
-forceSignAnnotated = true
-[credential "https://github.com"]
-helper =
-helper = !/opt/homebrew/bin/gh auth git-credential
-[credential "https://gist.github.com"]
-helper =
-helper = !/opt/homebrew/bin/gh auth git-credential
+	name = Chris McNabb
+	email = raizyr@gmail.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILGnYnEvj49E/GMsFTBhu2EXH2HaBz7Mmw0fv+YdYnZ1
 [core]
-excludesfile = /Users/chrismcnabb/.gitignore
+	sshCommand = ${SSH_PATH}
+	excludesfile = /Users/chrismcnabb/.gitignore
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = ${OP_SSH_SIGN_PATH}
+[pull]
+	rebase = true
+[commit]
+	gpgsign = true
+[gpg]
+	program = /usr/local/bin/gpg
+[tag]
+	forceSignAnnotated = true
+[init]
+	defaultBranch = main
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[credential "https://github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper =
+	helper = !/opt/homebrew/bin/gh auth git-credential
 [alias]
-cleanup = "!f() { git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'); do git branch -D $branch; done }; f"
+	cleanup = "!f() { git fetch -p && for branch in $(git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {sub(\"refs/heads/\", \"\", $1); print $1}'); do git branch -D $branch; done }; f"
