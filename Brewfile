@@ -16,6 +16,7 @@ brew "vim"
 brew "wget"
 brew "yq"
 brew "zsh-completions"
+brew "ykman"
 
 # Code related tools
 brew "markdownlint-cli"
@@ -74,7 +75,6 @@ cask "keybase"
 cask "notion"
 cask "rectangle-pro"
 cask "spotify"
-cask "yubico-yubikey-manager"
 cask "zoom"
 
 # Terraform stuff
