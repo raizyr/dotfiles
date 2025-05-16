@@ -8,6 +8,7 @@ zmodule git
 zmodule joke/zim-github-cli
 zmodule bgrrtt/zimfw-node
 zmodule muchobien/zim-bun
+zmodule agkozak/zsh-z
 
 zmodule magic-enter
 zmodule pvenv
