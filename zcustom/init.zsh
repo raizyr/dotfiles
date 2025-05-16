@@ -37,7 +37,7 @@ export PATH=$PATH:/usr/local/MacGPG2/bin:/opt/homebrew/bin:/usr/local/bin:$HOME/
 export SHOW_AWS_PROMPT=false
 
 # eval $(thefuck --alias --enable-experimental-instant-mode)
-# eval $(thefuck --alias)
+eval $(thefuck --alias)
 
 
 # Cursor
