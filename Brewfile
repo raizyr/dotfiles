@@ -29,6 +29,7 @@ cask "tuple"
 # Python tools
 brew "pyenv"
 brew "pyenv-virtualenv"
+brew "pdm"
 
 # Ruby tools
 brew "rbenv"
@@ -42,7 +43,6 @@ brew "rbenv"
 # Docker tools
 brew "dive"
 cask "rancher"
-
 
 # Git stuff
 brew "gh"
@@ -95,6 +95,7 @@ cask "zoom"
 
 # Visual Studio Code / Cursor
 cask "cursor"
+cask "windsurf"
 cask "visual-studio-code"
 vscode "foxundermoon.shell-format"
 vscode "ms-python.debugpy"
