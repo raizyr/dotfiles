@@ -43,3 +43,8 @@ export SHOW_AWS_PROMPT=false
 # Cursor
 export PATH="$PATH:/mnt/c/Users/raizy/AppData/Local/Programs/cursor/resources/app/bin"
 
+# Rancher Desktop
+export PATH="$HOME/.rd/bin:$PATH"
+
+# Added by Windsurf
+export PATH="/Users/raizyr/.codeium/windsurf/bin:$PATH"
