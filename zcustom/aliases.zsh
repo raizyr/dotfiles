@@ -1,7 +1,6 @@
 alias ls=' ls -G'
 alias cd=' cd'
 alias ssh='TERM=xterm-256color ssh'
-alias supabase='/mnt/c/Users/raizy/scoop/apps/supabase/current/supabase.exe'
 
 nomad-se-dev() {
     NOMAD_SECRET=$(aws --region eu-central-1 secretsmanager get-secret-value --secret-id arn:aws:secretsmanager:eu-central-1:962288559711:secret:jerry-se-nomad-cert-9ky-UON44L --query SecretString --output text)
